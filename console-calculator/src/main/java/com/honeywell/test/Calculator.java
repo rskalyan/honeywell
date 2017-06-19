@@ -10,8 +10,10 @@ import com.honeywell.test.enumerations.Operator;
 import com.honeywell.test.helper.ExpressionParser;
 
 public class Calculator {
+	
 	public String calculate(String input) throws Exception {
 		if (input == null || "".equals(input)) {
+			//invalid inputs
 			throw new Exception("Invalid Expression");
 		}
 
@@ -25,6 +27,7 @@ public class Calculator {
 				Operator operator = Operator.getOperator(sTmp.charAt(0));
 				if (1 == sTmp.length() && operator != null) {
 					if (stack.size() < 2) {
+						//Expression not balanced
 						throw new Exception("Invalid Expression");
 					}
 					arg2 = stack.pop();
@@ -50,15 +53,16 @@ public class Calculator {
 					arg1 = Float.parseFloat(sTmp);
 					stack.push(arg1);
 				}
-			} catch (Exception e) {
+			} catch (Exception e) { //Catch any parse errors or invalid inputs
 				throw new Exception("Invalid Expression");
 			}
 		}
 
+		//Expression not balanced
 		if (stack.size() > 1) {
 			throw new Exception("Invalid Expression");
 		}
-
+		
 		return formatDecmial(stack.pop());
 	}
 
